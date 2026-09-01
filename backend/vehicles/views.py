@@ -1,7 +1,4 @@
-import json
-from django.http import JsonResponse
 from .models import Vehicle
-from django.views.decorators.csrf import csrf_exempt
 from .serializers import VehicleSerializer
 
 from rest_framework.decorators import api_view
@@ -41,10 +38,9 @@ def vehicle_detail(request, id):
             status=404
         )
     if request.method == 'PUT':
-        data = json.loads(request.body)
         serializer = VehicleSerializer(
             vehicle,
-            data=data
+            data=request.data
         )
         if serializer.is_valid():
             serializer.save()
@@ -52,6 +48,10 @@ def vehicle_detail(request, id):
                 serializer.data,
                 status = 200
             )
+        return Response(
+            serializer.errors,
+            status=400
+        )
     if request.method == 'DELETE':
         vehicle.delete()
         return Response(
