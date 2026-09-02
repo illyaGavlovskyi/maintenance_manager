@@ -4,11 +4,15 @@ from .serializers import VehicleSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def vehicle_list(request):
 
     if request.method == 'GET':
-        vehicles = Vehicle.objects.all()
+        vehicles = Vehicle.objects.filter(user=request.user)
         serializer = VehicleSerializer(vehicles, many=True)
 
         return Response({
@@ -18,7 +22,7 @@ def vehicle_list(request):
     if request.method == 'POST':
         serializer = VehicleSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(
                 serializer.data,
                 status = 201)
@@ -29,9 +33,13 @@ def vehicle_list(request):
         )
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def vehicle_detail(request, id):
     try:
-        vehicle = Vehicle.objects.get(id=id)
+        vehicle = Vehicle.objects.get(
+            id=id,
+            user = request.user
+        )
     except Vehicle.DoesNotExist:
         return Response(
             {"error": "Vehicle not found"},
