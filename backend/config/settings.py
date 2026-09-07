@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'vehicles.apps.VehiclesConfig',
     'maintenance.apps.MaintenanceConfig',
     'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -131,3 +134,13 @@ MAILERS = {
 }
 
 LOGIN_REDIRECT_URL = '/vehicles/'
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
