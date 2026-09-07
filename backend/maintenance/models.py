@@ -10,5 +10,5 @@ class MaintenanceRecord(models.Model):
     service_type = models.CharField(max_length=100)
     date = models.DateField()
     mileage = models.PositiveIntegerField()
-    cost = cost = models.DecimalField(max_digits=10, decimal_places=2)
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
     notes = models.TextField(blank=True)

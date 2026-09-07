@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const API_URL = import.meta.env.VITE_API_URL
+
 function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -8,7 +10,8 @@ function Login() {
 
     const handleLogin = () => {
         setError('')
-        fetch('http://127.0.0.1:8000/api/login/', {
+
+        fetch(`${API_URL}/api/login/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,7 +32,8 @@ function Login() {
             localStorage.setItem('token', data.token)
             window.location.reload()
         })
-        .catch(() => {
+        .catch((error) => {
+            console.error(error)
             setError('Invalid username or password')
             setPassword('')
         })

@@ -1,12 +1,30 @@
+import {useState} from 'react'
+
+const API_URL = import.meta.env.VITE_API_URL
+
 function AddVehicle({setVehicleRefresh}) {
+    const [error, setError] = useState('')
+
     const [make, setMake] = useState('')
     const [model, setModel] = useState('')
     const [year, setYear] = useState('')
 
     const handleAddVehicle = () => {
+        setError('')
+
+        if (!make || !model || !year) {
+            setError('Please fill in all vehicle fields')
+            return
+        }
+
+        if (year < 1886) {
+            setError('Please enter a valid vehicle year')
+            return
+        }
+
         const token = localStorage.getItem('token')
 
-        fetch('http://127.0.0.1:8000/vehicles/', {
+        fetch(`${API_URL}/vehicles/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -36,8 +54,14 @@ function AddVehicle({setVehicleRefresh}) {
 
             setVehicleRefresh((current) => current + 1)
         })
-    }   
-     
+        .catch((error) => {
+            console.error(error)
+            setError('Failed to add vehicle')
+        })
+    }
+    
+
+
     return (
         <div>
             <h2>Add Vehicle</h2>
@@ -65,6 +89,7 @@ function AddVehicle({setVehicleRefresh}) {
             <button type="button" onClick = {handleAddVehicle}>
                 Add Vehicle
             </button>
+            {error && <p>{error}</p>}
         </div>
     )
 }
