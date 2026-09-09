@@ -78,15 +78,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
+import os
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'maintenance_db',
-        'USER': 'maintenance_user',
-        'PASSWORD': 'maintenance_password',
-        'HOST': 'db',
-        'PORT': '5432',
+        'NAME': os.getenv('DB_NAME', 'maintenance_db'),
+        'USER': os.getenv('DB_USER', 'maintenance_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'maintenance_password'),
+        'HOST': os.getenv('DB_HOST', 'db'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
