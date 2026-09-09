@@ -81,8 +81,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'maintenance_db',
+        'USER': 'maintenance_user',
+        'PASSWORD': 'maintenance_password',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -136,7 +140,8 @@ MAILERS = {
 LOGIN_REDIRECT_URL = '/vehicles/'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
 
 REST_FRAMEWORK = {

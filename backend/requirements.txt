@@ -6,6 +6,8 @@ djangorestframework==3.18.0
 iniconfig==2.3.0
 packaging==26.3
 pluggy==1.6.0
+psycopg==3.3.5
+psycopg-binary==3.3.5
 Pygments==2.21.0
 pytest==9.1.1
 pytest-django==4.14.0
